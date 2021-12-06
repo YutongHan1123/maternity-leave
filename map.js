@@ -36,47 +36,30 @@ function createMap(svg, data) {
         .enter()
         .append('path')
         .attr('class', 'country')
-        .attr('d', path)
-
-countries.on("mouseover", function(d) {
-    // console.log(this.__data__.properties.brief);
-    for ( var i = 0; i < provinceData.length; i++) {
-      if (this.__data__.properties.brief == provinceData[i][0]) {
-        if (provinceData[i][4].length != 0) {
-          tooltip.style("display", "inline-block")
-              .style("top", (d3.event.pageY) + "px")
-              .style("left", (d3.event.pageX - 60) + "px")
-              .html("<p class='province'>" + provinceData[i][0] + "</p> <p class='intro'>生育假 " + provinceData[i][1] + "天</p> <p class='intro'>陪产假 " + provinceData[i][2] + "天</p> <p class='intro'>育儿假 " + provinceData[i][3] + "</p> <p class='intro'>" + provinceData[i][4] + "</p>");
-        } else {
-          tooltip.style("display", "inline-block")
-              .style("top", (d3.event.pageY) + "px")
-              .style("left", (d3.event.pageX - 60) + "px")
-              .html("<p class='province'>" + provinceData[i][0] + "</p> <p class='intro'>生育假 " + provinceData[i][1] + "天</p> <p class='intro'>陪产假 " + provinceData[i][2] + "天</p> <p class='intro'>育儿假 " + provinceData[i][3] + "</p>");
-        }
-      }
-    }
-  })
-  .on("mousemove", function(d) {
-    for ( var i = 0; i < provinceData.length; i++) {
-      if (this.__data__.properties.brief == provinceData[i][0]) {
-        if (provinceData[i][4].length != 0) {
-          tooltip.style("display", "inline-block")
-              .style("top", (d3.event.pageY) + "px")
-              .style("left", (d3.event.pageX - 60) + "px")
-              .html("<p class='province'>" + provinceData[i][0] + "</p> <p class='intro'>生育假 " + provinceData[i][1] + "天</p> <p class='intro'>陪产假 " + provinceData[i][2] + "天</p> <p class='intro'>育儿假 " + provinceData[i][3] + "</p> <p class='intro'>" + provinceData[i][4] + "</p>");
-        } else {
-          tooltip.style("display", "inline-block")
-              .style("top", (d3.event.pageY) + "px")
-              .style("left", (d3.event.pageX - 60) + "px")
-              .html("<p class='province'>" + provinceData[i][0] + "</p> <p class='intro'>生育假 " + provinceData[i][1] + "天</p> <p class='intro'>陪产假 " + provinceData[i][2] + "天</p> <p class='intro'>育儿假 " + provinceData[i][3] + "</p>");
-        }
-      }
-    }
-  })
-  .on("mouseout", function(d, i) {
-      d3.select(this).attr("fill", "rgba(227,154,140,0.4)").attr("stroke-width", 2);
-      tooltip.style("display", "none");
-  });
+        .attr('d', path);
+//
+// countries.on("mouseover", function(d) {
+//     // console.log(this.__data__.properties.brief);
+//     for ( var i = 0; i < provinceData.length; i++) {
+//       if (this.__data__.properties.brief == provinceData[i][0]) {
+//         if (provinceData[i][4].length != 0) {
+//           tooltip.style("display", "inline-block")
+//               .style("top", (d3.event.pageY) + "px")
+//               .style("left", (d3.event.pageX - 60) + "px")
+//               .html("<p class='province'>" + provinceData[i][0] + "</p> <p class='intro'>生育假 " + provinceData[i][1] + "天</p> <p class='intro'>陪产假 " + provinceData[i][2] + "天</p> <p class='intro'>育儿假 " + provinceData[i][3] + "</p> <p class='intro'>" + provinceData[i][4] + "</p>");
+//         } else {
+//           tooltip.style("display", "inline-block")
+//               .style("top", (d3.event.pageY) + "px")
+//               .style("left", (d3.event.pageX - 60) + "px")
+//               .html("<p class='province'>" + provinceData[i][0] + "</p> <p class='intro'>生育假 " + provinceData[i][1] + "天</p> <p class='intro'>陪产假 " + provinceData[i][2] + "天</p> <p class='intro'>育儿假 " + provinceData[i][3] + "</p>");
+//         }
+//       }
+//     }
+//   })
+//   .on("mouseout", function(d, i) {
+//       d3.select(this).attr("fill", "rgba(227,154,140,0.4)").attr("stroke-width", 2);
+//       tooltip.style("display", "none");
+//   });
 
 function getProvinceCoors(name){
     for(var i=0; i<data.features.length; i++){
