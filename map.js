@@ -1,5 +1,5 @@
 var color = d3.scaleOrdinal(d3.schemeCategory20c);
-// var tooltip = d3.select("div.tooltip");
+// var tooltip = d3.select(".tooltip");
 
 // load the data, find the svg container in the dom,
 // and call createMap  initData()
@@ -216,16 +216,23 @@ function bubbleShow(d) {
 }
 
 function showStatePopup(d){
-  var tooltip = d3.select("div.tooltip")
-        .style("display", "inline-block")
-        .style("top", (d3.event.pageY) + "px")
-        .style("left", (d3.event.pageX - 60) + "px")
+  var tooltip = d3.select(".tooltip")
         .html("<p class='province'>" + d[0] + "</p> <p class='intro'>生育假 " + d[1] + "天</p> <p class='intro'>陪产假 " + d[2] + "天</p> <p class='intro'>育儿假 " + d[3] + "</p> <p class='intro'>" + d[4] + "</p>");
+
+  var mouse = getMousePos()
+  var x = mouse.x
+  if(x > width-200) x=width-200
+  var y = mouse.y
+  $(".tooltip").css("left", x).css("top",y+10).show();
   }
 
 function hideState() {
-  var tooltip = d3.select("div.tooltip").style("display", "none");
+  $(".tooltip").hide();
 }
 
+function getMousePos(event) {
+  var e = event || window.event;
+  return {'x':e.pageX,'y':e.pageY}
+}
 
 }
