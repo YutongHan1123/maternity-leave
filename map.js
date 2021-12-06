@@ -1,5 +1,5 @@
 var color = d3.scaleOrdinal(d3.schemeCategory20c);
-var tooltip = d3.select("div.tooltip");
+// var tooltip = d3.select("div.tooltip");
 
 // load the data, find the svg container in the dom,
 // and call createMap  initData()
@@ -38,29 +38,11 @@ function createMap(svg, data) {
         .attr('class', 'country')
         .attr('d', path)
 
-countries.on("mouseover", function(d) {
-    // console.log(this.__data__.properties.brief);
-    for ( var i = 0; i < provinceData.length; i++) {
-      if (this.__data__.properties.brief == provinceData[i][0]) {
-        if (provinceData[i][4].length != 0) {
-          showStatePopup(provinceData[i])
-          // tooltip.style("display", "inline-block")
-          //     .style("top", (d3.event.pageY) + "px")
-          //     .style("left", (d3.event.pageX - 60) + "px")
-          //     .html("<p class='province'>" + provinceData[i][0] + "</p> <p class='intro'>生育假 " + provinceData[i][1] + "天</p> <p class='intro'>陪产假 " + provinceData[i][2] + "天</p> <p class='intro'>育儿假 " + provinceData[i][3] + "</p> <p class='intro'>" + provinceData[i][4] + "</p>");
-        } else {
-          showStatePopup(provinceData[i])
-          // tooltip.style("display", "inline-block")
-          //     .style("top", (d3.event.pageY) + "px")
-          //     .style("left", (d3.event.pageX - 60) + "px")
-          //     .html("<p class='province'>" + provinceData[i][0] + "</p> <p class='intro'>生育假 " + provinceData[i][1] + "天</p> <p class='intro'>陪产假 " + provinceData[i][2] + "天</p> <p class='intro'>育儿假 " + provinceData[i][3] + "</p>");
-        }
-      }
-    }
-  })
+countries.on("mouseover", stateShow)
   .on("mouseout", function(d, i) {
-      d3.select(this).attr("fill", "rgba(227,154,140,0.4)").attr("stroke-width", 2);
-      tooltip.style("display", "none");
+      // d3.select(this).attr("fill", "rgba(227,154,140,0.4)").attr("stroke-width", 2);
+      // tooltip.style("display", "none");
+      hideState()
   });
 
 function getProvinceCoors(name){
@@ -134,24 +116,11 @@ svg.selectAll("circle")
         var coors = projection(getProvinceCoors(d[0]))
         return coors[1]
       })
-      .on("mouseover", function(d, i) {
-        if (d[4].length != 0) {
-          showStatePopup(d)
-          // tooltip.style("display", "inline-block")
-          //     .style("top", (d3.event.pageY) + "px")
-          //     .style("left", (d3.event.pageX - 60) + "px")
-          //     .html("<p class='province'>" + d[0] + "</p> <p class='intro'>生育假 " + d[1] + "天</p> <p class='intro'>陪产假 " + d[2] + "天</p> <p class='intro'>育儿假 " + d[3] + "</p> <p class='intro'>" + d[4] + "</p>");
-        } else {
-          showStatePopup(d)
-          // tooltip.style("display", "inline-block")
-          //     .style("top", (d3.event.pageY) + "px")
-          //     .style("left", (d3.event.pageX - 60) + "px")
-          //     .html("<p class='province'>" + d[0] + "</p> <p class='intro'>生育假 " + d[1] + "天</p> <p class='intro'>陪产假 " + d[2] + "天</p> <p class='intro'>育儿假 " + d[3] + "</p>");
-        }
-      })
+      .on("mouseover", bubbleShow)
       .on("mouseout", function(d, i) {
-          d3.select(this).attr("fill", "rgba(227,154,140,0.4)").attr("stroke-width", 2);
-          tooltip.style("display", "none");
+        hideState()
+          // d3.select(this).attr("fill", "rgba(227,154,140,0.4)").attr("stroke-width", 2);
+          // tooltip.style("display", "none");
       });
 
 // title
@@ -210,25 +179,53 @@ svg.append("g").append("text")
     .style("font-size",10)
 
 
-function showStatePopup(d){
-    // for(var i=0; i<data.length; i++){
-    //   if(data[i].id==id){
-    //     var row = $("<div class='row' style='margin-bottom:5px'><span class='cn'>"+data[i].properties.cn+"</span>&nbsp;<span class='cn'>"+data[i].properties.name+"</span></div>")
-    //     $(".popup").append(row)
-    //
-    //     var row = $("<div class='row grid-container'><div class='grid-item'>拜登:</div><div class='grid-item'>"+data[i].properties.vote1.toLocaleString('en') +"</div><div class='grid-item'>"+ data[i].properties.per1 + "%</div><div class='grid-item'>特朗普:</div><div class='grid-item'>"+data[i].properties.vote2.toLocaleString('en') +"</div><div class='grid-item'>"+ data[i].properties.per2 + "%</div></div>")
-    //     $(".popup").append(row)
-    //     $(".popup").css("background-color","#fff")
-    //   }
-    // }
-    // var mouse = getMousePos()
-    // var x = mouse.x
-    // if(x > width-200) x=width-200
-    // $(".popup").css("left",x).css("top",mouse.y+10).show()
+function stateShow(d) {
+  for ( var i = 0; i < provinceData.length; i++) {
+    if (this.__data__.properties.brief == provinceData[i][0]) {
+      if (provinceData[i][4].length != 0) {
+        showStatePopup(provinceData[i])
+        // tooltip.style("display", "inline-block")
+        //     .style("top", (d3.event.pageY) + "px")
+        //     .style("left", (d3.event.pageX - 60) + "px")
+        //     .html("<p class='province'>" + provinceData[i][0] + "</p> <p class='intro'>生育假 " + provinceData[i][1] + "天</p> <p class='intro'>陪产假 " + provinceData[i][2] + "天</p> <p class='intro'>育儿假 " + provinceData[i][3] + "</p> <p class='intro'>" + provinceData[i][4] + "</p>");
+      } else {
+        showStatePopup(provinceData[i])
+        // tooltip.style("display", "inline-block")
+        //     .style("top", (d3.event.pageY) + "px")
+        //     .style("left", (d3.event.pageX - 60) + "px")
+        //     .html("<p class='province'>" + provinceData[i][0] + "</p> <p class='intro'>生育假 " + provinceData[i][1] + "天</p> <p class='intro'>陪产假 " + provinceData[i][2] + "天</p> <p class='intro'>育儿假 " + provinceData[i][3] + "</p>");
+      }
+    }
+  }
+}
 
-    tooltip.style("display", "inline-block")
+function bubbleShow(d) {
+  if (d[4].length != 0) {
+    showStatePopup(d)
+    // tooltip.style("display", "inline-block")
+    //     .style("top", (d3.event.pageY) + "px")
+    //     .style("left", (d3.event.pageX - 60) + "px")
+    //     .html("<p class='province'>" + d[0] + "</p> <p class='intro'>生育假 " + d[1] + "天</p> <p class='intro'>陪产假 " + d[2] + "天</p> <p class='intro'>育儿假 " + d[3] + "</p> <p class='intro'>" + d[4] + "</p>");
+  } else {
+    showStatePopup(d)
+    // tooltip.style("display", "inline-block")
+    //     .style("top", (d3.event.pageY) + "px")
+    //     .style("left", (d3.event.pageX - 60) + "px")
+    //     .html("<p class='province'>" + d[0] + "</p> <p class='intro'>生育假 " + d[1] + "天</p> <p class='intro'>陪产假 " + d[2] + "天</p> <p class='intro'>育儿假 " + d[3] + "</p>");
+  }
+}
+
+function showStatePopup(d){
+  var tooltip = d3.select("div.tooltip")
+        .style("display", "inline-block")
         .style("top", (d3.event.pageY) + "px")
         .style("left", (d3.event.pageX - 60) + "px")
         .html("<p class='province'>" + d[0] + "</p> <p class='intro'>生育假 " + d[1] + "天</p> <p class='intro'>陪产假 " + d[2] + "天</p> <p class='intro'>育儿假 " + d[3] + "</p> <p class='intro'>" + d[4] + "</p>");
   }
+
+function hideState() {
+  var tooltip = d3.select("div.tooltip").style("display", "none");
+}
+
+
 }
