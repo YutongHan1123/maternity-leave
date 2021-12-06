@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta http-equiv="x-ua-compatible" content="IE=edge" />
+  <meta content="yes" name="apple-mobile-web-app-capable" />
+  <meta content="telephone=no" name="format-detection" />
+  <meta content="email=no" name="format-detection" />
+  <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+  <!-- <script src="js/d3.v4.min.js" charset="utf-8"></script> -->
+	<script src="js/jquery-1.7.2.min.js" language="javascript"></script>
+  <script src="js/d3.v4.min.js"></script>
+  <script src="js/topojson.v2.min.js"></script>
+  <script src="js/d3-queue.v3.min.js"></script>
+  <style>
+    body {
+        /* system font stack*/
+        font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+        color: hsl(0, 0%, 20%);
+    }
+
+    .country {
+        fill: hsla(0, 0%, 50%, 0.1);
+        stroke: hsla(0, 0%, 50%, 0.4);
+        stroke-width: 1.5px;
+        cursor: pointer;
+    }
+
+    .country:hover {
+        fill: hsla(0, 0%, 50%, .2);
+    }
+
+    .country.active {
+        fill: hsl(0, 100%, 75%);
+    }
+
+    .country.active:hover {
+        fill: hsl(0, 100%, 75%);
+    }
+
+    div.tooltip {
+        color: #222;
+        background: none repeat scroll 0 0 white;
+        border: 0 none;
+        border-radius: 8px 8px 8px 8px;
+        box-shadow: -3px 3px 15px #888888;
+        padding: 5px;
+        text-shadow: #f5f5f5 0 1px 0;
+        opacity: 0.9;
+        position: absolute;
+        font: 12px sans-serif;
+        z-index: 100;
+    }
+
+    /* responsive set up */
+
+    .svg-container {
+        display: block;
+        position: relative;
+        width: 100%;
+        max-width: 470px;
+        margin: 0 auto;
+        vertical-align: middle;
+        overflow: hidden;
+    }
+
+    .svg {
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .hidden {
+      display: none;
+    }
+    .province {
+      font-weight: 500;
+      margin: 0;
+    }
+    .intro {
+      margin: 0;
+      font-size: 15px;
+    }
+    .logo {
+      width:100%;
+      position: relative;
+      text-align: center;
+      font-size: 14px;
+      color: #676767;
+      margin-bottom: 50px;
+      margin-top: 20px
+    }
+    .logo img {
+      width: 50px;
+    }
+    .logo p{
+      margin-top: 10px
+    }
+
+    .increase{
+      position: relative;
+      margin: 0 auto;
+      padding: 0;
+      width:500px
+    }
+    .increase .title{
+      font-size: 16px;
+      margin-bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-weight: 900
+    }
+    .line-chart-div{
+      position: relative;
+      width: 100%;
+      height: 200px;
+      margin-bottom: 10px;
+    }
+
+@media only screen and (min-width: 371px) and (max-width: 430px) {
+  .logo img {
+    display: none;
+  }
+}
+@media only screen and (min-width: 431px) {
+  .logo img {
+    display: none;
+  }
+
+  .logo p{
+    margin: 0;
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+  }
+}
+</style>
+</head>
+
+<body>
+    <div class="svg-container">
+        <svg viewBox='0 0 400 450' preserveAspectRatio='xMinYMin' />
+    </div>
+    <div class="tooltip"></div>
+    <div class="logo"><img src="logo.png" />
+      <p>数据来源：各省政府司法厅网站及人大官网</p>
+    </div>
+<!--
+    <div class="increase">
+      <div class="title">- 各地新增病例 -</div>
+    </div> -->
+</body>
+<script src="data.js" language="javascript"></script>
+<script src="map.js"></script>
+<!-- <script src="chart.js"></script> -->
+</html>
